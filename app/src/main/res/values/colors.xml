@@ -3,4 +3,21 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorWhite">#FFFFFF</color>
+
+    <color name="color_card_bg">#33FFFFFF</color>
+    <color name="color_number">#33000000</color>
+    <color name="color_number_bg">#3C3A32</color>
+    <color name="color_number_bg_0">#000000</color>
+    <color name="color_number_bg_2">#EEE4DA</color>
+    <color name="color_number_bg_4">#EDE9C8</color>
+    <color name="color_number_bg_8">#F2B179</color>
+    <color name="color_number_bg_16">#F59563</color>
+    <color name="color_number_bg_32">#F67C5F</color>
+    <color name="color_number_bg_64">#F65E3B</color>
+    <color name="color_number_bg_128">#EDCF72</color>
+    <color name="color_number_bg_256">#EDCC61</color>
+    <color name="color_number_bg_512">#EDC850</color>
+    <color name="color_number_bg_1024">#EDC53F</color>
+    <color name="color_number_bg_2048">#EDC22E</color>
 </resources>
