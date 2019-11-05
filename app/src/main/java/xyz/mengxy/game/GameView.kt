@@ -2,6 +2,7 @@ package xyz.mengxy.game
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Point
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -18,6 +19,7 @@ class GameView @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     private val mCardsMap = Array(4) { Array(4) { Card(context) } }
+    private val mEmptyPoints = mutableListOf<Point>()
 
     init {
         orientation = VERTICAL
@@ -79,10 +81,10 @@ class GameView @JvmOverloads constructor(
     }
 
     private fun addCards(side: Int) {
-        for (y in 0..4) {
+        for (y in 0..3) {
             addView(LinearLayout(context).apply {
                 layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, side)
-                for (x in 0..4) {
+                for (x in 0..3) {
                     val card = Card(context).apply {
                         setNumber(0)
                     }
@@ -94,6 +96,26 @@ class GameView @JvmOverloads constructor(
     }
 
     private fun startGame() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // todo clear last score
+        for (line in mCardsMap) {
+            for (card in line) {
+                card.setNumber(0)
+            }
+        }
+        addRandomNumber()
+        addRandomNumber()
+    }
+
+    private fun addRandomNumber() {
+        mEmptyPoints.clear()
+        for (y in mCardsMap.indices) {
+            for (x in mCardsMap[y].indices) {
+                if (mCardsMap[x][y].getNumber() <= 0) {
+                    mEmptyPoints.add(Point(x, y))
+                }
+            }
+        }
+        val point = mEmptyPoints.removeAt((Math.random() * mEmptyPoints.size).toInt())
+        mCardsMap[point.x][point.y].setNumber(if (Math.random() > 0.1) 2 else 4)
     }
 }
