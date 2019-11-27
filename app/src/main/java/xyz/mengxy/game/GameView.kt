@@ -62,7 +62,38 @@ class GameView @JvmOverloads constructor(
     }
 
     private fun swipeDown() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var mergeTag = false
+        var score = 0
+        for (x in mCardsMap.indices) {
+            var y = 3
+            while (y >= 0) {
+                for (y1 in y - 1 downTo 0) {
+                    if (mCardsMap[x][y1].getNumber() > 0) {
+                        if (mCardsMap[x][y].getNumber() <= 0) {
+                            mCardsMap[x][y].setNumber(mCardsMap[x][y1].getNumber())
+                            mCardsMap[x][y1].setNumber(0)
+                            y++
+                            mergeTag = true
+                        } else if (mCardsMap[x][y] == mCardsMap[x][y1]) {
+                            val num = mCardsMap[x][y].getNumber().times(2)
+                            mCardsMap[x][y].setNumber(num)
+                            mCardsMap[x][y1].setNumber(0)
+                            score += num
+                            mergeTag = true
+                        }
+                        break
+                    }
+                }
+                y--
+            }
+        }
+        if (score > 0) {
+            ScorePreference.addScore(score)
+        }
+        if (mergeTag) {
+            addRandomNumber()
+            checkComplete()
+        }
     }
 
     private fun swipeLeft() {
@@ -96,7 +127,7 @@ class GameView @JvmOverloads constructor(
     }
 
     private fun startGame() {
-        // todo clear last score
+        ScorePreference.resetTotalScore()
         for (line in mCardsMap) {
             for (card in line) {
                 card.setNumber(0)
@@ -117,5 +148,21 @@ class GameView @JvmOverloads constructor(
         }
         val point = mEmptyPoints.removeAt((Math.random() * mEmptyPoints.size).toInt())
         mCardsMap[point.x][point.y].setNumber(if (Math.random() > 0.1) 2 else 4)
+    }
+
+    private fun checkComplete() {
+        // ?? 二维数组/矩阵方程 相邻两数相等
+        for (y in mCardsMap.indices) {
+            for (x in mCardsMap[y].indices) {
+                if (mCardsMap[x][y].getNumber() == 0 ||
+                        (x > 0 && mCardsMap[x][y] == mCardsMap[x - 1][y]) ||
+                        (x < 3 && mCardsMap[x][y] == mCardsMap[x + 1][y]) ||
+                        (y > 0 && mCardsMap[x][y] == mCardsMap[x][y - 1]) ||
+                        (y < 3 && mCardsMap[x][y] == mCardsMap[x][y + 1])) {
+                    return
+                }
+            }
+        }
+        //todo show finish dialog
     }
 }
