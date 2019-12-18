@@ -58,7 +58,39 @@ class GameView @JvmOverloads constructor(
     }
 
     private fun swipeUp() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var mergeTag = false
+        var score = 0
+        for (x in mCardsMap.indices) {
+            var y = 0
+            while (y < 4) {
+                for (y1 in y + 1 until mCardsMap.size) {
+                    if (mCardsMap[x][y1].getNumber() > 0) {
+                        if (mCardsMap[x][y].getNumber() <= 0) {
+                            mCardsMap[x][y].setNumber(mCardsMap[x][y1].getNumber())
+                            mCardsMap[x][y1].setNumber(0)
+                            y--
+                            mergeTag = true
+                        } else if (mCardsMap[x][y] == mCardsMap[x][y1]) {
+                            val num = mCardsMap[x][y].getNumber().times(2)
+                            mCardsMap[x][y].setNumber(num)
+                            mCardsMap[x][y1].setNumber(0)
+                            score += num
+                            mergeTag = true
+                        }
+                        break
+                    }
+                }
+                y++
+            }
+
+        }
+        if (score > 0) {
+            ScorePreference.addScore(score)
+        }
+        if (mergeTag) {
+            addRandomNumber()
+            checkComplete()
+        }
     }
 
     private fun swipeDown() {
@@ -97,11 +129,75 @@ class GameView @JvmOverloads constructor(
     }
 
     private fun swipeLeft() {
+        var mergeTag = false
+        var score = 0
+        for (y in mCardsMap.indices) {
+            var x = 0
+            while (x < 4) {
+                for (x1 in x + 1 until mCardsMap.size) {
+                    if (mCardsMap[x1][y].getNumber() > 0) {
+                        if (mCardsMap[x][y].getNumber() <= 0) {
+                            mCardsMap[x][y].setNumber(mCardsMap[x1][y].getNumber())
+                            mCardsMap[x1][y].setNumber(0)
+                            x--
+                            mergeTag = true
+                        } else if (mCardsMap[x][y] == mCardsMap[x1][y]) {
+                            val num = mCardsMap[x][y].getNumber().times(2)
+                            mCardsMap[x][y].setNumber(num)
+                            mCardsMap[x1][y].setNumber(0)
+                            score += num
+                            mergeTag = true
+                        }
+                        break
+                    }
+                }
+                x++
+            }
 
+        }
+        if (score > 0) {
+            ScorePreference.addScore(score)
+        }
+        if (mergeTag) {
+            addRandomNumber()
+            checkComplete()
+        }
     }
 
     private fun swipeRight() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var mergeTag = false
+        var score = 0
+        for (y in mCardsMap.indices) {
+            var x = 3
+            while (x >= 0) {
+                for (x1 in x - 1 downTo 0) {
+                    if (mCardsMap[x1][y].getNumber() > 0) {
+                        if (mCardsMap[x][y].getNumber() <= 0) {
+                            mCardsMap[x][y].setNumber(mCardsMap[x1][y].getNumber())
+                            mCardsMap[x1][y].setNumber(0)
+                            x++
+                            mergeTag = true
+                        } else if (mCardsMap[x][y] == mCardsMap[x1][y]) {
+                            val num = mCardsMap[x][y].getNumber().times(2)
+                            mCardsMap[x][y].setNumber(num)
+                            mCardsMap[x1][y].setNumber(0)
+                            score += num
+                            mergeTag = true
+                        }
+                        break
+                    }
+                }
+                x--
+            }
+        }
+
+        if (score > 0) {
+            ScorePreference.addScore(score)
+        }
+        if (mergeTag) {
+            addRandomNumber()
+            checkComplete()
+        }
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {

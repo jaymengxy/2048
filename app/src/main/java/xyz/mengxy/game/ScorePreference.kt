@@ -13,9 +13,7 @@ object ScorePreference {
     private var mMaxScore = 0
     private var mTotalScore = 0
 
-    val mScoreLiveData: MutableLiveData<Score> by lazy {
-        MutableLiveData()
-    }
+    val mScoreLiveData: MutableLiveData<Score> = MutableLiveData()
 
     init {
         mMaxScore = getIntegerPreference(GameApplication.instance, PREF_MAX_SCORE)
